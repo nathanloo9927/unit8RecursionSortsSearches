@@ -21,7 +21,7 @@ public class FractalViewer
         frame = new JFrame();
         frame.setTitle("Fractal Tree");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 500);
+        frame.setSize(400, 400);
         frame.add(panel);
         frame.setVisible(true);
     }
