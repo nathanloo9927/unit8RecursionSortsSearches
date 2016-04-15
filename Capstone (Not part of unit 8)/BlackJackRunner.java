@@ -58,7 +58,7 @@ public class BlackJackRunner
                 firstTime = false;
             }
             game.makeDeck();
-            System.out.println(game.deck());
+            System.out.println(game.getDeckSize());
             System.out.print("Play again? (yes/any other response = no): ");
             response = in.next();
         }
