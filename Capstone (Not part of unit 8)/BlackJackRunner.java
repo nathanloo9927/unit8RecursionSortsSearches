@@ -14,28 +14,34 @@ public class BlackJackRunner
         do {
             System.out.print("How many players are playing? (2-10 players): ");
             while (!in.hasNextInt()) {
-                System.out.println("That's not a number or isn't an integer!");
+                System.out.println("That's not an integer!");
                 System.out.print("How many players are playing? (2-10 players): ");
                 in.next();
             }
             players = in.nextInt();
         } while (players < 2 || players > 10);
+        String[] names = new String[players];
         do {
             System.out.println("How many of those players will be controlled by a player (At least 1");
             System.out.print("player must be controlled by the user): ");
             while (!in.hasNextInt()) {
-                System.out.println("That's not a number or isn't an integer!");
+                System.out.println("That's not an integer!");
                 System.out.println("How many of those players will be controlled by a player (At least 1");
                 System.out.print("player must be controlled by the user): ");
                 in.next();
             }
             users = in.nextInt();
         } while (users < 1 || users > players);
-        String[] names = new String[users];
-        for (int i = 0; i < names.length; i++)
+        for (int i = 0; i < users; i++)
         {
             System.out.print("Enter the name for player " + (i + 1) + ": ");
             names[i] = in.next();
+        }
+        int comNamer = 1;
+        for (int i = users; i < players; i++)
+        {
+            names[i] = "COM " + comNamer;
+            comNamer++;
         }
         String response = "yes";
         boolean firstTime = true;
