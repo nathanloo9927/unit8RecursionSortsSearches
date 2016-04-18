@@ -31,21 +31,21 @@ public class BlackJack
     {
         return cards.size();
     }
-    public String getHand(int currentPlayer)
+    public String getHand(int currentPlayer) // the cards
     {
         return cardsInHand[currentPlayer];
     }
-    public String getHandValue(int currentPlayer)
+    public void getHandValue(int currentPlayer) // how much the cards in the player's hand would
+                                                // total.
     {
-        String hand = "";
         if (handValue[currentPlayer][1] != handValue[currentPlayer][2])
         {
-            hand += (handValue[currentPlayer][1] + "/" + handValue[currentPlayer][2]);
+            System.out.println(handValue[currentPlayer][1] + "/" + handValue[currentPlayer][2]);
         } else
         {
-            hand += handValue[currentPlayer][2];
+            System.out.println(handValue[currentPlayer][2]); // using the second because it is
+                                                             // usually the highest
         }
-        return hand;
     }
     public void makeDeck()
     {
@@ -61,18 +61,36 @@ public class BlackJack
     {
         cards.clear();
     }
+    public int inTheLead()
+    {
+        int highest = handValue[0][2];
+        for (int i = 1; i < numplayers; i++)
+        {
+            if (handValue[i][2] > highest)
+            {
+                highest = handValue[i][2];
+            }
+        }
+        return highest;
+    }
     public void computerMoves(int currentPlayer)
     {
         int til21 = 21 - handValue[currentPlayer][2];
-        int stillAliveCards = 0;
-        for (int i = 1; i <= til21; i++)
-        {
-            stillAliveCards += Collections.frequency(cards, i);
-        }
-        double decksize = (stillAliveCards / cards.size()) * 100;
-        if (decksize >= 60)
+        if (til21 >= 10)
         {
             this.hit(currentPlayer);
+        } else
+        {
+            int stillAliveCards = 0;
+            for (int i = 1; i <= til21; i++)
+            {
+                stillAliveCards += Collections.frequency(cards, i);
+            }
+            double probAlive = (stillAliveCards / cards.size()) * 100;
+            if (probAlive >= 60.0)
+            {
+                this.hit(currentPlayer);
+            }
         }
     }
     public int hit(int currentPlayer)
@@ -134,4 +152,5 @@ public class BlackJack
             return false;
         }
     }
+    
 }
