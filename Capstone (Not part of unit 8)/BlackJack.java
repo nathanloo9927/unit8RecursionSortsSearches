@@ -69,8 +69,8 @@ public class BlackJack
         {
             stillAliveCards += Collections.frequency(cards, i);
         }
-        int decksize = (int)(cards.size() / 2.0);
-        if (stillAliveCards > decksize)
+        double decksize = (stillAliveCards / cards.size()) * 100;
+        if (decksize >= 60)
         {
             this.hit(currentPlayer);
         }
