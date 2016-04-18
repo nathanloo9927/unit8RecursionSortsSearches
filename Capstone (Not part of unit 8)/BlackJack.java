@@ -10,6 +10,7 @@ public class BlackJack
     private int[] numAces; // number of aces in each player's hand
     private String[] cardsInHand; // the list of cards each player has
     private ArrayList<Integer> cards = new ArrayList<Integer>(52); // Deck of cards
+    private boolean[] isDone; // checks if the player is finished with his/her turn
     public BlackJack(int numPlayers, int users, String[] names)
     {
         this.numplayers = numPlayers;
@@ -19,6 +20,7 @@ public class BlackJack
         for (int i = 0; i < numPlayers; i++)
         {
             numAces[i] = 0;
+            isDone[i] = false;
         }
         this.handValue = new int[numPlayers][3];
         this.cardsInHand = new String[numPlayers];
@@ -46,6 +48,10 @@ public class BlackJack
             System.out.println(handValue[currentPlayer][2]); // using the second because it is
                                                              // usually the highest
         }
+    }
+    public boolean isPlayerDone(int currentPlayer)
+    {
+        return isDone[currentPlayer];
     }
     public void makeDeck()
     {
@@ -75,21 +81,31 @@ public class BlackJack
     }
     public void computerMoves(int currentPlayer)
     {
-        int til21 = 21 - handValue[currentPlayer][2];
-        if (til21 >= 10)
+        if (handValue[currentPlayer][2] < this.inTheLead())
         {
             this.hit(currentPlayer);
-        } else
+        }
+        else
         {
-            int stillAliveCards = 0;
-            for (int i = 1; i <= til21; i++)
-            {
-                stillAliveCards += Collections.frequency(cards, i);
-            }
-            double probAlive = (stillAliveCards / cards.size()) * 100;
-            if (probAlive >= 60.0)
+            int til21 = 21 - handValue[currentPlayer][2];
+            if (til21 >= 10)
             {
                 this.hit(currentPlayer);
+            } else
+            {
+                int stillAliveCards = 0;
+                for (int i = 1; i <= til21; i++)
+                {
+                    stillAliveCards += Collections.frequency(cards, i);
+                }
+                double probAlive = (stillAliveCards / cards.size()) * 100;
+                if (probAlive >= 60.0)
+                {
+                    this.hit(currentPlayer);
+                } else
+                {
+                    isDone[currentPlayer] = true;
+                }
             }
         }
     }
@@ -152,5 +168,18 @@ public class BlackJack
             return false;
         }
     }
-    
+    public String nameOfWinner()
+    {
+        int highest = handValue[0][2];
+        int highestIndex = 0;
+        for (int i = 1; i < numplayers; i++)
+        {
+            if (handValue[i][2] > highest)
+            {
+                highest = handValue[i][2];
+                highestIndex = i;
+            }
+        }
+        return players[highestIndex];
+    }
 }
